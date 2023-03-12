@@ -32,9 +32,9 @@ SIEM は組織のセキュリティに関するログを収集し、正規化と
 
 Microsoft Sentinel は発見されたセキュリティ アラートを `インシデント` としてライフサイクルを管理しながら調査を行うための機能を持っています。この機能の中には担当者をアサインし、調査の状況を記録するものや、ログの中から意味を持つ情報を `エンティティ` として抽出し、関係するセキュリティ アラートを可視化する機能が含まれています。
 
-- データの収集
-- 分析の容易さ
+- 様々なソースに対応したデータの収集
 - 巨大な容量をカバーする拡張性
+- UEBA や AI による高度な分析、ビルトインのルールによる容易な分析
 
 > **Log Analytics と KQL**  
  Microsoft Sentinel はデータストアとして Log Analytics ワークスペースを使用し、Kusto Query Language (KQL) でデータ検索や操作を記述します。
@@ -42,7 +42,9 @@ KQL は Log Analytics ワークスペースで Azure Monitor や Microsoft Senti
 
 ### Security Orchestration, Automation and Response (SOAR)
 
-SOAR は繰り返し発生するセキュリティ オペレーションを自動化する機能です。担当者のアサインなど簡単なものであれば GUI を使用して設定することができますが、Logic Apps と連携して複雑なワーク フローを実行することができます。自動化を行うために特別なサーバーを構築、管理したり、自動化機能のための高額なライセンスや初期投資は必要ありません。
+SOAR は繰り返し発生するセキュリティ オペレーションを自動化する機能です。担当者のアサインなど簡単なものであれば GUI を使用して設定することができますが、Logic Apps と連携して複雑なワーク フローを実行することができます。自動化を行うために特別なサーバーを構築、管理したり、自動化機能のための高額なライセンスや初期投資は必要ありません。  
+
+利用シナリオの例：
 
 - 発生したインシデントに対する担当者の割り当て
 - 条件に応じた担当者へのメッセージ通知、Teams への投稿
@@ -116,7 +118,6 @@ Microsoft Sentinel で利用する様々な機能は必要に応じて追加す�
 -->
 ## ログのコスト
 
-
 Sentinel の利用料金は取り込むログの量に概ね比例しますが、コストをコントロールする機能が用意されています。コストが予測できない場合には[ログ取り込みの日次上限](https://learn.microsoft.com/ja-jp/azure/azure-monitor/logs/daily-cap) を設定して評価を行うと安全です。
 
 [Azure Sentinel の価格](https://azure.microsoft.com/ja-jp/pricing/details/microsoft-sentinel/)
@@ -151,6 +152,10 @@ Log Analytics ワークスペースの主要なログです。対話型で高速
 [Microsoft Sentinel のカスタム データ インジェストと変換](https://learn.microsoft.com/ja-jp/azure/sentinel/data-transformation)
 
 ## よく使うログの取り込み (ハンズオン)
+
+Microsoft Sentinel では 100 を超えるデータコネクタが提供さていて、様々なソースからログの取り込みを行うことができます。よく使われるログを取り込んでインシデントの検知と対応の流れを学習します。
+
+![Data ingestion methods](./images/data-ingestion.png)
 
 ### **Microsoft 365 Defender**
 
@@ -232,10 +237,10 @@ Microsoft Sentinel の機能に対する一般提供は限定的で、Windows �
 Azure Monitor Agent はデータ収集ルールに基づいて仮想マシンからログやパフォーマンス カウンタを収集します。Windows のイベントログは [XPath クエリを使用して](https://learn.microsoft.com/ja-jp/azure/azure-monitor/agents/data-collection-rule-azure-monitor-agent?tabs=portal#filter-events-using-xpath-queries)任意のイベントを抽出することができるため、一部のイベントを収集したい、といったシナリオに対応することができます。
 
 この手順で収集されるイベントログは XML 形式のフィールドを解析する必要があるため、セキュリティ イベントの分析であれば [AMA  を使用した Windows セキュリティ イベント](https://learn.microsoft.com/ja-jp/azure/sentinel/data-connectors-reference#windows-security-events-via-ama)が適しています。
-
+<!--
 ### Azure Arc
 
-<!--
+
 ### Linux のログ
 
 次のドキュメントに従って Linux の syslog を接続します。
