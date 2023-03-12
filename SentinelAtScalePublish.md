@@ -28,9 +28,12 @@ Microsoft Sentinel はこの機能の中で主に Detect と Respond を担当�
 
 ### Security Information and Event Management (SIEM)
 
-SIEM は組織のセキュリティに関するログを収集し、正規化と関連付けを行うことで検索を可能にし、分析を行うための機能です。セキュリティに関係するログは OS やアプリケーション、サービスやネットワーク アプライアンスなど様々なコンポーネントが生成し、その生成元によって文字コードやレコードの形式、日付時刻の書式などが異なるため、データを整形して関連付けを行い、検索可能な状態にする必要があります。
+SIEM は組織のセキュリティに関するログを収集し、正規化と関連付けを行うことで検索を可能にし、分析を行うための機能です。セキュリティに関係するログは OS やアプリケーション、ネットワーク機器など様々なソースから生成され、その生成元によって文字コードやレコードの形式、日付時刻の書式などが異なるため、ログを整形して関連付けを行い、検索可能な状態にする必要があります。
 
-SIEM では収集されたログからセキュリティ アラートを発見する役割を持ちますが、発見されたアラートは管理され、対応される必要があります。
+SIEM はこのようなログの管理に加え、ログを分析してセキュリティ アラートを発見する役割を持ちますが、
+
+
+発見されたアラートは管理され、対応される必要があります。
 Microsoft Sentinel は発見されたセキュリティ アラートを `インシデント` としてライフサイクルを管理しながら調査を行うための機能を持っています。この機能の中には担当者をアサインし、調査の状況を記録するものや、ログの中から意味を持つ情報を `エンティティ` として抽出し、関係するセキュリティ アラートを可視化する機能が含まれています。
 
 - データの収集
@@ -38,7 +41,7 @@ Microsoft Sentinel は発見されたセキュリティ アラートを `イン�
 - データ容量に応じた拡張性
 
 > **Log Analytics と KQL**  
- Microsoft Sentinel はデータストアとして Log Analytics ワークスペースを使用し、Kusto Query Language (KQL) でデータ検索や操作のクエリを記述します。
+ Microsoft Sentinel はデータストアとして Log Analytics ワークスペースを使用し、Kusto Query Language (KQL) でデータ検索や操作を記述します。
 KQL は Log Analytics ワークスペースで Azure Monitor や Microsoft Sentinel のログを検索する他、リソース グラフで Azure リソースの状態を確認したり、Microsoft Defender Endpoit の高度な追及の中でハンティングを行うためにも使うことができます。
 
 ### Security Orchestration, Automation and Response (SOAR)
@@ -54,12 +57,10 @@ Logic Apps は使用量に応じた課金と専用インスタンスの確認の
 
 ## ログのインジェスト
 
-Sentinel は Log Analytics ワークスペースで管理されるログに対して様々な機能を提供するソリューションなので Log Analytics ワークスペースの設計が必要になります。管理や検索を簡単にするためにワークスペースは 1 つであるほうが良いですが、ベストプラクティスには複数のワークスペースを検討するための主要な考慮点が記載されています。
-
+Sentinel は Log Analytics ワークスペースで管理されるログに対して様々な機能を提供するソリューションなので Log Analytics ワークスペースの設計が必要になります。管理や検索を簡単にするためにワークスペースは 1 つであるほうが良いですが、ベストプラクティスには複数のワークスペースを検討するための主要な考慮点が記載されています。  
 [Microsoft Sentinel ワークスペース アーキテクチャのベスト プラクティス](https://learn.microsoft.com/ja-jp/azure/sentinel/best-practices-workspace-architecture)
 
-より詳細な意思決定ツリーは次のドキュメントに含まれています。
-
+>意思決定ツリーを含む、より詳細な情報次のドキュメントに含まれています。  
 [Microsoft Sentinel ワークスペース アーキテクチャを設計する](https://learn.microsoft.com/ja-jp/azure/sentinel/design-your-workspace-architecture)
 
 ### Azure AD テナントが複数である場合
@@ -117,6 +118,8 @@ Sentinel で利用する様々な機能は必要に応じて追加すること�
 
 ### ログのコスト
 
+[コストを計画し、Microsoft Sentinel の価格と課金を理解する](https://learn.microsoft.com/ja-jp/azure/sentinel/billing?tabs=commitment-tier)
+
 #### アーカイブ機能
 
 #### Azure Data Explorer
@@ -165,19 +168,54 @@ Microsoft 365 Defender のデータ コネクタは 3 種類の構成を含ん�
 
 ### Defender for Cloud の連携
 
+次のドキュメントに従って Defender for Cloud のアラートを接続します。  
 [Microsoft Defender for Cloud アラートを Microsoft Sentinel に接続する](https://learn.microsoft.com/ja-jp/azure/sentinel/connect-microsoft-365-defender?tabs=MDE)
+
+このデータコネクタによって接続されるのは Defender for Cloud のクラウド ワークロード保護機能です。主にクラウド ワークロードに対する脅威検知を行う機能で、Defender for Cloud の環境設定から有効化することができます。30 日間無料試用版を使うことができます。課金は保護するリソースによって異なり、例えば VM や App Service であればインスタンスごと、ストレージ アカウントやリソースグループの操作の監視であればトランザクション量に比例した課金になります。  
+[強化されたセキュリティフィーチャーを取得するための Defender プランを有効にする](https://learn.microsoft.com/ja-jp/azure/defender-for-cloud/enable-enhanced-security)
 
 ### Azure Active Directory
 
-#### Signin Logs
+次のドキュメントに従って Azure Active Directory のログを接続します。  
+[Azure Active Directory (Azure AD) データを Microsoft Azure Sentinel に接続する](https://learn.microsoft.com/ja-jp/azure/sentinel/connect-azure-active-directory)
 
-#### Audit Logs
+脅威が検知された場合、侵害範囲の特定や原因の調査のためにユーザー ディレクトリのログが必要になります。このため、ほとんどのシナリオで Azure Active Direcotry のログを収集しておくことを推奨しています。少なくとも次のログについては実際に内容を確認し、有効性について評価を行うことをお勧めします。
+
+・サインイン ログ：ログインの成否、多要素認証の状況などユーザーによる対話型のサインインに関する情報を含みます。
+・監査ログ：ユーザーやグループの管理、ディレクトリに対する操作の情報などが含まれます。
+
+>サインイン ログを取り込むためには Azure AD P1 または P2 ライセンスが必要になります。その他のログの取り込みには特別なライセンスは必要ありません。
 
 ### Azure Activity
 
+次のドキュメントに従って Azure Activity のログを接続します。
+
+[新しい Azure アクティビティ コネクタにアップグレードする](https://learn.microsoft.com/ja-jp/azure/sentinel/data-connectors-reference#upgrade-to-the-new-azure-activity-connector)
+
+Azure Activity はサブスクリプションやリソースに対する操作が行われた場合に記録されるログで、リソースの作成、変更や削除、権限の付与などの管理操作を記録しています。Azure 環境に対する操作の監査ログとしてもよく使われるため、Sentinel に取り込んでおくことをお勧めしています。
+
 ## 仮想マシンの接続
 
-### Windows のログ
+仮想マシンを接続することで仮想マシンのパフォーマンス情報やログの情報を Sentinel に取り込むことができるようになります。仮想マシンのこれらの情報を取り込むかどうかは組織の監視や監査の要件に寄りますが、仮想マシンが接続を行う仕組みはネットワーク機器などからログを収集するデータコネクタの前提条件になるため、いくつかの仮想マシンを接続し、ログが取り込まれる流れを理解しておくことをお勧めします。
+
+### Microsoft Monitoring Agent と Azure Monitor Agent
+
+仮想マシンを Sentinel に接続するためには Microsoft Monitoring Agent (Log Analytics Agent とも呼ばれます) または Azure Monitor Agent を使用する必要があります。Microsoft Monitoring Agent はレガシーなエージェントで [2024 年 8 月の廃止が予定](https://learn.microsoft.com/ja-jp/azure/azure-monitor/agents/log-analytics-agent)されています。Azure Monitor Agent は Log Analytics Agent を置き換える新しいエージェントで、既に Log Analytics Agent の持つ様々な機能を一般提供でサポートしています。
+
+[Azure Monitor Agent がサポートするサービスと機能](https://learn.microsoft.com/ja-jp/azure/azure-monitor/agents/agents-overview#supported-services-and-features)
+
+Microsoft Sentinel の機能に対する一般提供は限定的で、Windows のイベントログや Linux の Sylog を収集するようなシナリオは一般提供の機能でカバーすることができますが、Azure Monitor Agent を他のデータコネクタの中で使用し、Syslog や CEF のフォワード先として使うようなシナリオでは注意が必要です。都度にサポートの可否を確認することをお勧めします。
+
+[Microsoft Sentinel の AMA 移行](https://learn.microsoft.com/ja-jp/azure/sentinel/ama-migrate)
+
+### Windows のセキュリティ ログ
+
+次のドキュメントに従って Windows イベントのログを接続します。
+[Microsoft Azure Sentinel を Azure、Windows、Microsoft、および Amazon サービスに接続する](https://learn.microsoft.com/ja-jp/azure/sentinel/connect-azure-windows-microsoft-services?tabs=SA%2CAMA#windows-agent-based-connections)
+
+Azure Monitor Agent はデータ収集ルールに基づいて仮想マシンからログやパフォーマンス カウンタを収集します。Windows のイベントログは [XPath クエリを使用して](https://learn.microsoft.com/ja-jp/azure/azure-monitor/agents/data-collection-rule-azure-monitor-agent?tabs=portal#filter-events-using-xpath-queries)任意のイベントを抽出することができるため、一部のイベントを収集したい、といったシナリオに対応することができます。
+
+この手順で収集されるイベントログは XML 形式のフィールドを解析する必要があるため、セキュリティ イベントのみであれば [AMA  を使用した Windows セキュリティ イベント](https://learn.microsoft.com/ja-jp/azure/sentinel/data-connectors-reference#windows-security-events-via-ama)が適しています。
 
 ### Linux のログ
 
