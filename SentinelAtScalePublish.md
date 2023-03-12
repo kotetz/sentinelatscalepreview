@@ -134,8 +134,7 @@ Sentinel で利用する様々な機能は必要に応じて追加すること�
 
 ### **Microsoft 365 Defender**
 
-次のドキュメントに従って Microsoft 365 Defender を接続します。
-
+次のドキュメントに従って Microsoft 365 Defender を接続します。  
 [Microsoft 365 Defender から Microsoft Azure Sentinel にデータを接続する](https://learn.microsoft.com/ja-jp/azure/sentinel/connect-microsoft-365-defender?tabs=MDE)
 
 Microsoft 365 Defender のデータ コネクタは 3 種類の構成を含んでいます。
@@ -188,8 +187,7 @@ Microsoft 365 Defender のデータ コネクタは 3 種類の構成を含ん�
 
 ### Azure Activity
 
-次のドキュメントに従って Azure Activity のログを接続します。
-
+次のドキュメントに従って Azure Activity のログを接続します。  
 [新しい Azure アクティビティ コネクタにアップグレードする](https://learn.microsoft.com/ja-jp/azure/sentinel/data-connectors-reference#upgrade-to-the-new-azure-activity-connector)
 
 Azure Activity はサブスクリプションやリソースに対する操作が行われた場合に記録されるログで、リソースの作成、変更や削除、権限の付与などの管理操作を記録しています。Azure 環境に対する操作の監査ログとしてもよく使われるため、Sentinel に取り込んでおくことをお勧めしています。
@@ -200,24 +198,24 @@ Azure Activity はサブスクリプションやリソースに対する操作�
 
 ### Microsoft Monitoring Agent と Azure Monitor Agent
 
-仮想マシンを Sentinel に接続するためには Microsoft Monitoring Agent (Log Analytics Agent とも呼ばれます) または Azure Monitor Agent を使用する必要があります。Microsoft Monitoring Agent はレガシーなエージェントで [2024 年 8 月の廃止が予定](https://learn.microsoft.com/ja-jp/azure/azure-monitor/agents/log-analytics-agent)されています。Azure Monitor Agent は Log Analytics Agent を置き換える新しいエージェントで、既に Log Analytics Agent の持つ様々な機能を一般提供でサポートしています。
-
+仮想マシンを Sentinel に接続するためには Microsoft Monitoring Agent (Log Analytics Agent とも呼ばれます) または Azure Monitor Agent を使用する必要があります。Microsoft Monitoring Agent はレガシーなエージェントで [2024 年 8 月の廃止が予定](https://learn.microsoft.com/ja-jp/azure/azure-monitor/agents/log-analytics-agent)されています。Azure Monitor Agent は Log Analytics Agent を置き換える新しいエージェントで、既に Log Analytics Agent の持つ様々な機能を一般提供でサポートしています。  
 [Azure Monitor Agent がサポートするサービスと機能](https://learn.microsoft.com/ja-jp/azure/azure-monitor/agents/agents-overview#supported-services-and-features)
 
-Microsoft Sentinel の機能に対する一般提供は限定的で、Windows のイベントログや Linux の Sylog を収集するようなシナリオは一般提供の機能でカバーすることができますが、Azure Monitor Agent を他のデータコネクタの中で使用し、Syslog や CEF のフォワード先として使うようなシナリオでは注意が必要です。都度にサポートの可否を確認することをお勧めします。
-
+Microsoft Sentinel の機能に対する一般提供は限定的で、Windows のイベントログや Linux の Sylog を収集するようなシナリオは一般提供の機能でカバーすることができますが、Azure Monitor Agent を他のデータコネクタの中で使用し、Syslog や CEF のフォワード先として使うようなシナリオでは注意が必要です。利用するデータコネクタごとにサポートの可否を確認することをお勧めします。  
 [Microsoft Sentinel の AMA 移行](https://learn.microsoft.com/ja-jp/azure/sentinel/ama-migrate)
 
 ### Windows のセキュリティ ログ
 
-次のドキュメントに従って Windows イベントのログを接続します。
+次のドキュメントに従って Windows イベントのログを接続します。  
 [Microsoft Azure Sentinel を Azure、Windows、Microsoft、および Amazon サービスに接続する](https://learn.microsoft.com/ja-jp/azure/sentinel/connect-azure-windows-microsoft-services?tabs=SA%2CAMA#windows-agent-based-connections)
 
 Azure Monitor Agent はデータ収集ルールに基づいて仮想マシンからログやパフォーマンス カウンタを収集します。Windows のイベントログは [XPath クエリを使用して](https://learn.microsoft.com/ja-jp/azure/azure-monitor/agents/data-collection-rule-azure-monitor-agent?tabs=portal#filter-events-using-xpath-queries)任意のイベントを抽出することができるため、一部のイベントを収集したい、といったシナリオに対応することができます。
 
-この手順で収集されるイベントログは XML 形式のフィールドを解析する必要があるため、セキュリティ イベントのみであれば [AMA  を使用した Windows セキュリティ イベント](https://learn.microsoft.com/ja-jp/azure/sentinel/data-connectors-reference#windows-security-events-via-ama)が適しています。
+この手順で収集されるイベントログは XML 形式のフィールドを解析する必要があるため、セキュリティ イベントの分析であれば [AMA  を使用した Windows セキュリティ イベント](https://learn.microsoft.com/ja-jp/azure/sentinel/data-connectors-reference#windows-security-events-via-ama)が適しています。
 
 ### Linux のログ
+
+次のドキュメントに従って Linux の syslog を接続します。
 
 ### ワークブック
 
